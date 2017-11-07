@@ -15,29 +15,31 @@ def generator(samples, batch_size=32):
 
             images = []
             angles = []
-            for batch_sample, measurements in batch_samples:
-                print ('batch_sample: ', batch_sample)
-                print ('measurements: ', measurements)
+            for batch_sample in batch_samples:
+                #print ('batch_sample: ', batch_sample)
                 #name = './data/IMG/'+batch_sample[0].split('/')[-1]
                 #center_image = cv2.imread(name)
                 #center_angle = float(batch_sample[3])
                 #images.append(center_image)
                 #angles.append(center_angle)
 
-                for i in range(1):
+                for i in range(3):
                     source_path = batch_sample[i]
+                    #print ('i', i, source_path)
                     filename = source_path.split('/')[-1]
                     current_path = '../data/IMG/' + filename
                     srcBGR = cv2.imread(current_path)
                     image = cv2.cvtColor(srcBGR, cv2.COLOR_BGR2RGB)
                     images.append(image)
-                    if i is 0:
-                        angle = float(line[3])
+                    if i == 0:
+                        angle = float(batch_sample[3])
                         angles.append(angle)
+                        #print ('IMAGE: ', current_path, angle)
                     else:
-                        angle = float(line[3]) + (((-1)**i) * correction)
+                        angle = float(batch_sample[3]) + (((-1)**i) * correction)
                         angles.append(angle)
-                        pass
+                        #print ('IMAGE: ', current_path, angle)
+                        
 
             augmented_images, augmented_angles = [], []
             for image,angle in zip(images, angles):
